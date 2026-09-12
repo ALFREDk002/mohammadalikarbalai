@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammad Ali Karbalai</title>
+    <link rel="stylesheet" href="./index.css"/>
+</head>
+<body class="body">
+
+    <!-- بوم انیمیشن ستاره‌ها در پس‌زمینه قرار گرفت -->
+    <canvas id="spaceCanvas"></canvas>
+
+    <!-- کل محتوا درون یک کانتینر اصلی برای کنترل چیدمان قرار دارد -->
+    <main class="main-container">
+        <section class="wrapper">
+            <img src="./IMG_20250704_143343.jpg" alt="Mohammad Ali Karbalai" class="image1"/>
+            
+            <h1 class="h1-1">MOHAMMAD ALI KARBALAI</h1>
+            
+            <h3 class="h3-1">
+                Hey ! My name is Mohammad Ali Karbalai . I'm 18 . I'm Web Developer for now </br>
+                I'm from IRAN.
+            </h3>
+
+            <!-- بخش دکمه‌های ناوبری -->
+            <div class="nav-buttons">
+                <a href="./blog.htm" class="btn btn1">BLOG</a>
+                <a href="./resume.htm" class="btn btn2">RESUME</a>
+                <a href="./store.htm" class="btn btn4">STORE</a>
+            </div>
+            
+            <a href="/follow.css" class="space-button-link">
+                <button class="space-button">FOLLOW</button>
+            </a>
+        </section>
+
+        <!-- متن کپی‌رایت در پایین‌ترین بخش محتوا -->
+        <footer class="footer">
+            <p>Created by Mohammad Ali Karbalai</p>
+        </footer>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const stars = [];
+        const numStars = 150;
+
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 1.2,
+                alpha: Math.random(),
+                speed: Math.random() * 0.01 + 0.005
+            });
+        }
+
+        let shootingStar = null;
+
+        function createShootingStar() {
+            shootingStar = {
+                x: Math.random() * width,
+                y: 0,
+                length: Math.random() * 80 + 50,
+                speedX: Math.random() * 15 + 10,
+                speedY: Math.random() * 8 + 6,
+                alpha: 1
+            };
+        }
+
+        setInterval(() => {
+            if (!shootingStar) {
+                createShootingStar();
+            }
+        }, 4000);
+
+        function animate() {
+            ctx.fillStyle = 'rgba(5, 5, 16, 0.3)';
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+                ctx.globalAlpha = Math.abs(star.alpha);
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            if (shootingStar) {
+                ctx.globalAlpha = shootingStar.alpha;
+                
+                let gradient = ctx.createLinearGradient(
+                    shootingStar.x, shootingStar.y, 
+                    shootingStar.x - shootingStar.length, shootingStar.y - (shootingStar.length * (shootingStar.speedY / shootingStar.speedX))
+                );
+                gradient.addColorStop(0, '#ffffff');
+                gradient.addColorStop(0.5, 'rgba(0, 191, 255, 0.5)');
+                gradient.addColorStop(1, 'transparent');
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(shootingStar.x, shootingStar.y);
+                ctx.lineTo(
+                    shootingStar.x - shootingStar.length, 
+                    shootingStar.y - (shootingStar.length * (shootingStar.speedY / shootingStar.speedX))
+                );
+                ctx.stroke();
+
+                shootingStar.x += shootingStar.speedX;
+                shootingStar.y += shootingStar.speedY;
+
+                if (shootingStar.x > width || shootingStar.y > height) {
+                    shootingStar = null;
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
