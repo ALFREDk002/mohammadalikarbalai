@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Lost in Space</title>
+    <style>
+        /* تنظیمات پایه و ریست قالب */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #03030a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* هدایت انیمیشن ستاره‌ها به پس‌زمینه */
+        #spaceCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* کانتینر اصلی محتوا */
+        .main-container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        /* باکس اصلی معرفی با بلور کمتر شده و شیشه‌ای شفاف */
+        .wrapper {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 550px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                        0 0 40px rgba(255, 0, 128, 0.05); /* هاله نوری ملایم قرمز/صورتی برای خطا */
+            margin: auto 0;
+        }
+
+        /* عدد بزرگ 404 با استایل نئونی و فضایی */
+        .error-code {
+            font-size: 6rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ff007f, #ff7700, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 127, 0.4));
+            animation: float 4s ease-in-out infinite alternate; /* انیمیشن معلق بودن در فضا */
+        }
+
+        /* عنوان خطا */
+        .h1-1 {
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* متن توضیحات */
+        .h3-1 {
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #b0b0cc;
+            margin-bottom: 2.5rem;
+        }
+
+        /* دکمه اختصاصی و هایپراسپیس بازگشت به خانه */
+        .space-button-link {
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+
+        .space-button {
+            width: 100%;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: white;
+            background: linear-gradient(45deg, #005fbc, #00bfff, #7000ff);
+            background-size: 200% auto;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            animation: spacePulse 2s infinite alternate;
+        }
+
+        /* افکت هاور دکمه */
+        .space-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            background-position: right center;
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.6), 
+                        0 0 40px rgba(112, 0, 255, 0.4);
+        }
+
+        /* انیمیشن پالس نوری دکمه */
+        @keyframes spacePulse {
+            0% {
+                box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+            }
+            100% {
+                box-shadow: 0 4px 25px rgba(112, 0, 255, 0.5);
+            }
+        }
+
+        /* انیمیشن معلق بودن عدد 404 در فضا */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            100% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* استایل بخش فوتر */
+        .footer {
+            width: 100%;
+            text-align: center;
+            padding-top: 2rem;
+            color: #4a4a6a;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        /* مدیا کوئری ریسپانسیو برای موبایل */
+        @media (max-width: 480px) {
+            .wrapper {
+                padding: 2.5rem 1.2rem;
+                margin: auto 10px;
+            }
+            
+            .error-code {
+                font-size: 4.5rem;
+            }
+
+            .h1-1 {
+                font-size: 1.3rem;
+            }
+
+            .h3-1 {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body class="body">
+
+    <!-- بوم انیمیشن ستاره‌ها و شهاب‌سنگ‌ها در پس‌زمینه -->
+    <canvas id="spaceCanvas"></canvas>
+
+    <!-- کانتینر اصلی محتوا روی لایه انیمیشن -->
+    <main class="main-container">
+        <section class="wrapper">
+            <!-- عدد خطای معلق -->
+            <div class="error-code">404</div>
+            
+            <h1 class="h1-1">LOST IN SPACE</h1>
+            
+            <h3 class="h3-1">
+                The page you are looking for has drifted into a black hole or never existed in this universe.
+            </h3>
+            
+            <!-- دکمه هدایت به صفحه اصلی (آدرس فایل اصلی خود را بجای index.html قرار دهید) -->
+            <a href="index.htm" class="space-button-link">
+                <button class="space-button">RETURN TO HOME</button>
+            </a>
+        </section>
+
+        <!-- متن کپی‌رایت فوتر -->
+        <footer class="footer">
+            <p>Created by Mohammad Ali Karbalai</p>
+        </footer>
+    </main>
+
+    <!-- جاوااسکریپت انیمیشن ستاره‌ها و شهاب‌سنگ‌ها -->
+    <script>
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const stars = [];
+        const numStars = 100;
+
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 1.2,
+                alpha: Math.random(),
+                speed: Math.random() * 0.01 + 0.005
+            });
+        }
+
+        let shootingStar = null;
+
+        function createShootingStar() {
+            shootingStar = {
+                x: Math.random() * width,
+                y: 0,
+                length: Math.random() * 80 + 50,
+                speedX: Math.random() * 15 + 10,
+                speedY: Math.random() * 8 + 6,
+                alpha: 1
+            };
+        }
+
+        setInterval(() => {
+            if (!shootingStar) {
+                createShootingStar();
+            }
+        }, 4000);
+
+        function animate() {
+            ctx.fillStyle = 'rgba(5, 5, 16, 0.3)';
+            ctx.fillRect(0, 0, width, height);
+
+            stars.forEach(star => {
+                star.alpha += star.speed;
+                if (star.alpha > 1 || star.alpha < 0) {
+                    star.speed = -star.speed;
+                }
+                ctx.globalAlpha = Math.abs(star.alpha);
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            if (shootingStar) {
+                ctx.globalAlpha = shootingStar.alpha;
+                
+                let gradient = ctx.createLinearGradient(
+                    shootingStar.x, shootingStar.y, 
+                    shootingStar.x - shootingStar.length, shootingStar.y - (shootingStar.length * (shootingStar.speedY / shootingStar.speedX))
+                );
+                gradient.addColorStop(0, '#ffffff');
+                gradient.addColorStop(0.5, 'rgba(0, 191, 255, 0.5)');
+                gradient.addColorStop(1, 'transparent');
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(shootingStar.x, shootingStar.y);
+                ctx.lineTo(
+                    shootingStar.x - shootingStar.length, 
+                    shootingStar.y - (shootingStar.length * (shootingStar.speedY / shootingStar.speedX))
+                );
+                ctx.stroke();
+
+                shootingStar.x += shootingStar.speedX;
+                shootingStar.y += shootingStar.speedY;
+
+                if (shootingStar.x > width || shootingStar.y > height) {
+                    shootingStar = null;
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
