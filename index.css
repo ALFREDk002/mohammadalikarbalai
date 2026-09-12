@@ -1,0 +1,210 @@
+/* تنظیمات پایه و ریست قالب */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #03030a;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* هدایت انیمیشن ستاره‌ها به دورترین لایه پس‌زمینه */
+#spaceCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* کانتینر اصلی محتوا برای قرارگیری روی بوم انیمیشن */
+.main-container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+/* باکس اصلی معرفی با بلور کمتر شده و شیشه‌ای شفاف */
+.wrapper {
+    background: rgba(255, 255, 255, 0.02); /* کاهش غلظت رنگ پس‌زمینه */
+    backdrop-filter: blur(4px); /* کاهش بلور طبق درخواست شما برای وضوح بیشتر ستاره‌ها */
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2.5rem 2rem;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                0 0 40px rgba(0, 191, 255, 0.05); /* هاله نوری بسیار ملایم دور باکس */
+    margin: auto 0;
+}
+
+/* تصویر پروفایل با استایل سفینه فضایی */
+.image1 {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(0, 191, 255, 0.5);
+    box-shadow: 0 0 25px rgba(0, 191, 255, 0.3);
+    margin-bottom: 1.5rem;
+    transition: transform 0.5s ease;
+}
+
+.image1:hover {
+    transform: rotate(5deg) scale(1.05);
+}
+
+/* عنوان اصلی با گرادینت کهکشانی */
+.h1-1 {
+    font-size: 1.8rem;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #ffffff, #00bfff, #8a2be2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+/* متن توضیحات */
+.h3-1 {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #b0b0cc;
+    margin-bottom: 2.5rem;
+}
+
+/* کانتینر دکمه‌های ناوبری */
+.nav-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+/* استایل فضایی و نئونی دکمه‌های ۳ تایی */
+.btn {
+    flex: 1;
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 0;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #e0e0ff;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(0, 191, 255, 0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(2px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    box-shadow: 0 0 0 rgba(0, 191, 255, 0);
+}
+
+/* افکت هاور دکمه‌های اصلی (جذب درخشش سیارکی) */
+.btn:hover {
+    background: rgba(0, 191, 255, 0.15);
+    color: #ffffff;
+    border-color: #00bfff;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 5px 15px rgba(0, 191, 255, 0.3);
+}
+
+/* دکمه اختصاصی و هایپراسپیس FOLLOW */
+.space-button-link {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+}
+
+.space-button {
+    width: 100%;
+    padding: 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: white;
+    background: linear-gradient(45deg, #005fbc, #00bfff, #7000ff);
+    background-size: 200% auto;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    animation: spacePulse 2s infinite alternate; /* انیمیشن تپش نوری مداوم */
+}
+
+/* افکت هاور دکمه فالو (انفجار نور نئونی) */
+.space-button:hover {
+    transform: translateY(-3px) scale(1.02);
+    background-position: right center; /* حرکت دادن گرادینت پس‌زمینه */
+    box-shadow: 0 0 25px rgba(0, 191, 255, 0.6), 
+                0 0 40px rgba(112, 0, 255, 0.4);
+}
+
+/* انیمیشن پالس نوری دکمه FOLLOW */
+@keyframes spacePulse {
+    0% {
+        box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+    }
+    100% {
+        box-shadow: 0 4px 25px rgba(112, 0, 255, 0.5);
+    }
+}
+
+/* استایل بخش فوتر */
+.footer {
+    width: 100%;
+    text-align: center;
+    padding-top: 2rem;
+    color: #4a4a6a;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+/* مدیا کوئری کاملاً ریسپانسیو برای نمایشگرهای کوچک موبایل */
+@media (max-width: 480px) {
+    .wrapper {
+        padding: 2rem 1.2rem;
+        margin: auto 10px;
+    }
+    
+    .image1 {
+        width: 110px;
+        height: 110px;
+    }
+
+    .h1-1 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+
+    .h3-1 {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+    /* تغییر چیدمان افقی دکمه‌ها به عمودی در موبایل برای کاربری راحت‌تر */
+    .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+        padding: 12px 0;
+    }
+}
